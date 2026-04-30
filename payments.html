@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments | Magaye Funerals</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="dashboard-grid">
+        <aside></aside>
+        <main>
+            <header>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1>Payment Records</h1>
+                        <p class="subtitle">Track premium collections and billing history.</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <p class="stat-label">Total Collected (MTD)</p>
+                    <p class="stat-value" id="collectedTotal">R0.00</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">Projected Revenue</p>
+                    <p class="stat-value">R184,500</p>
+                </div>
+                <div class="stat-card" style="border-color: var(--warning);">
+                    <p class="stat-label">Pending Payments</p>
+                    <p class="stat-value">42</p>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <!-- Payment History -->
+                <div class="card" style="flex: 2;">
+                    <h3>Transaction History</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Date</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Member</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Amount</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Method</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Ref</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add Payment Form -->
+                <div class="card" style="flex: 1;">
+                    <h3>Log Payment</h3>
+                    <form id="paymentForm" onsubmit="event.preventDefault(); logPayment();" style="margin-top: 1.5rem;">
+                        <div class="input-group">
+                            <label>ID Number</label>
+                            <input type="text" id="payMemberId" placeholder="Policy holder ID" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Amount (R)</label>
+                            <input type="number" id="payAmount" step="0.01" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Method</label>
+                            <select id="payMethod">
+                                <option value="EFT">EFT</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Debit">Debit Order</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Record Payment</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function renderPayments() {
+            const payments = await apiRequest('/payments') || [];
+            const members = await apiRequest('/members') || [];
+            const tbody = document.getElementById('paymentsBody');
+            
+            tbody.innerHTML = '';
+            let total = 0;
+
+            payments.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(p => {
+                const member = members.find(m => m.id === p.memberId);
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid var(--border)';
+                tr.innerHTML = `
+                    <td style="padding: 1rem 0;">${p.date}</td>
+                    <td>${member ? member.firstName + ' ' + member.lastName : p.memberId}</td>
+                    <td style="font-weight: 600; color: var(--success);">R${p.amount.toFixed(2)}</td>
+                    <td>${p.method}</td>
+                    <td style="color: var(--text-muted); font-size: 0.8rem;">${p.id}</td>
+                `;
+                tbody.appendChild(tr);
+                total += p.amount;
+            });
+            
+            document.getElementById('collectedTotal').innerText = 'R' + total.toLocaleString();
+        }
+
+        async function logPayment() {
+            const memberId = document.getElementById('payMemberId').value;
+            const amount = parseFloat(document.getElementById('payAmount').value);
+            const method = document.getElementById('payMethod').value;
+            
+            const newPayment = {
+                id: 'PAY-' + Math.floor(Math.random() * 10000).toString().padStart(4, '0'),
+                memberId: memberId,
+                amount: amount,
+                date: new Date().toISOString().split('T')[0],
+                method: method
+            };
+            
+            const result = await apiRequest('/payments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newPayment)
+            });
+
+            if (result) {
+                alert('Payment recorded successfully!');
+                document.getElementById('paymentForm').reset();
+                renderPayments();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderPayments);
+    </script>
+</body>
+</html>

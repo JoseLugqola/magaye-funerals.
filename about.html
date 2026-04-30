@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Magaye Funerals</title>
+    <meta name="description" content="Learn about Magaye Funerals — our story, values, and commitment to dignified, compassionate funeral care for South African families.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { overflow-x: hidden; }
+
+        .public-nav { display:flex; align-items:center; justify-content:space-between; padding:0 4rem; }
+        .nav-logo { font-size:1.4rem; font-weight:700; color:var(--accent-gold); text-decoration:none; display:flex; align-items:center; gap:0.5rem; }
+        .nav-links { display:flex; list-style:none; gap:2rem; align-items:center; }
+        .nav-links a { text-decoration:none; color:var(--text-secondary); font-weight:500; transition:color 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active { color:var(--text-primary); }
+        .nav-cta { text-decoration:none; background:var(--accent-gold); color:var(--bg-dark) !important; padding:0.6rem 1.5rem; border-radius:10px; font-weight:700 !important; transition:background 0.3s ease !important; }
+        .nav-cta:hover { background:var(--accent-gold-hover) !important; }
+
+        /* Page Hero */
+        .page-hero { padding: calc(80px + 5rem) 4rem 5rem; text-align:center; position:relative; }
+        .page-hero::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:80px; height:3px; background:var(--accent-gold); border-radius:2px; }
+        .page-hero p.section-tag { display:block; }
+
+        /* Mission Strip */
+        .mission-strip { background:var(--surface-dark); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:4rem; display:grid; grid-template-columns:repeat(3,1fr); gap:3rem; }
+        .mission-item { text-align:center; padding:1.5rem; }
+        .mission-icon { width:64px; height:64px; background:rgba(197,160,89,0.1); border-radius:16px; display:flex; align-items:center; justify-content:center; color:var(--accent-gold); margin:0 auto 1.5rem; }
+        .mission-item h3 { font-size:1.2rem; font-weight:700; margin-bottom:0.75rem; }
+        .mission-item p { color:var(--text-secondary); font-size:0.9rem; line-height:1.8; }
+
+        /* Story */
+        .story-section { padding:6rem 4rem; display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+        .story-section blockquote { border-left:3px solid var(--accent-gold); padding-left:1.5rem; margin:2rem 0; color:var(--text-secondary); font-style:italic; font-size:1.05rem; line-height:1.8; }
+
+        /* Values */
+        .values-section { padding:6rem 4rem; background:var(--surface-dark); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .values-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; margin-top:4rem; }
+        .value-card { background:var(--bg-dark); border:1px solid var(--border); border-radius:20px; padding:2rem; transition:all 0.3s ease; }
+        .value-card:hover { border-color:rgba(197,160,89,0.4); transform:translateY(-4px); }
+        .value-num { font-size:2.5rem; font-weight:800; color:rgba(197,160,89,0.2); line-height:1; margin-bottom:1rem; }
+        .value-card h4 { font-size:1.05rem; font-weight:700; margin-bottom:0.5rem; }
+        .value-card p { color:var(--text-secondary); font-size:0.88rem; line-height:1.7; }
+
+        /* Team */
+        .team-section { padding:6rem 4rem; }
+        .team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2rem; margin-top:4rem; }
+        .team-card { background:var(--surface-dark); border:1px solid var(--border); border-radius:20px; padding:2rem; text-align:center; transition:all 0.3s ease; }
+        .team-card:hover { border-color:rgba(197,160,89,0.3); transform:translateY(-4px); }
+        .avatar { width:80px; height:80px; border-radius:50%; background:rgba(197,160,89,0.15); display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem; color:var(--accent-gold); font-size:1.5rem; font-weight:700; }
+        .team-card h4 { font-weight:700; margin-bottom:0.25rem; }
+        .team-card .role { color:var(--accent-gold); font-size:0.85rem; font-weight:600; margin-bottom:0.75rem; }
+        .team-card p { color:var(--text-secondary); font-size:0.85rem; line-height:1.7; }
+
+        /* CTA */
+        .cta-section { margin:0 4rem 6rem; background:linear-gradient(135deg,rgba(197,160,89,0.1) 0%,rgba(197,160,89,0.03) 100%); border:1px solid rgba(197,160,89,0.3); border-radius:24px; padding:5rem 3rem; text-align:center; }
+        .cta-section h2 { font-size:2.2rem; font-weight:700; margin-bottom:1rem; }
+        .cta-section p { color:var(--text-secondary); font-size:1.05rem; margin-bottom:2.5rem; }
+
+        /* Footer */
+        footer { padding:4rem; border-top:1px solid var(--border); }
+        .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:4rem; margin-bottom:3rem; }
+        .footer-links { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
+        .footer-links a { text-decoration:none; color:var(--text-secondary); transition:color 0.3s ease; font-size:0.9rem; }
+        .footer-links a:hover { color:var(--accent-gold); }
+        .footer-bottom { padding-top:2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; color:var(--text-muted); font-size:0.85rem; }
+
+        .section-tag { color:var(--accent-gold); font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem; display:block; }
+        .section-title { font-size:clamp(1.8rem,3vw,2.8rem); font-weight:700; margin-bottom:1rem; }
+        .section-sub { color:var(--text-secondary); font-size:1.05rem; line-height:1.8; }
+    </style>
+</head>
+<body>
+
+<nav class="public-nav">
+    <a href="guest.html" class="nav-logo">
+        <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+    </a>
+    <ul class="nav-links">
+        <li><a href="guest.html">Home</a></li>
+        <li><a href="about.html" class="active">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="customer_login.html">Member Login</a></li>
+        <li><a href="customer_registration.html" class="nav-cta">Join a Plan</a></li>
+    </ul>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero animate-fade-in">
+    <span class="section-tag">Our Story</span>
+    <h1 style="font-size:clamp(2rem,4vw,3.5rem); font-weight:800; margin-bottom:1.25rem; letter-spacing:-1px;">Who We Are</h1>
+    <p style="color:var(--text-secondary); font-size:1.1rem; max-width:580px; margin:0 auto; line-height:1.8;">Magaye Funerals was built on a single belief — that every life deserves a dignified farewell, regardless of circumstance.</p>
+</div>
+
+<!-- Mission / Vision / Values Strip -->
+<div class="mission-strip">
+    <div class="mission-item">
+        <div class="mission-icon"><i data-lucide="target" style="width:28px;"></i></div>
+        <h3>Our Mission</h3>
+        <p>To provide accessible, compassionate, and high-quality funeral services to all South African families through affordable subscription plans.</p>
+    </div>
+    <div class="mission-item" style="border-left:1px solid var(--border); border-right:1px solid var(--border);">
+        <div class="mission-icon"><i data-lucide="eye" style="width:28px;"></i></div>
+        <h3>Our Vision</h3>
+        <p>To become the most trusted funeral parlour in the region, known for dignity, reliability, and community care.</p>
+    </div>
+    <div class="mission-item">
+        <div class="mission-icon"><i data-lucide="heart-handshake" style="width:28px;"></i></div>
+        <h3>Our Promise</h3>
+        <p>Every family that trusts us will experience seamless, professional support from the moment of loss to the final farewell.</p>
+    </div>
+</div>
+
+<!-- Our Story -->
+<div class="story-section">
+    <div>
+        <span class="section-tag">The Beginning</span>
+        <h2 class="section-title">A Legacy Built on Compassion</h2>
+        <p class="section-sub">Magaye Funerals was founded with one goal in mind: to remove the financial and logistical burden from grieving families at the most difficult time of their lives.</p>
+        <blockquote>"We started this business because we saw families struggle. Grief is hard enough — the paperwork, the logistics, the costs — should never be."</blockquote>
+        <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.8;">Today, Magaye Funerals serves over 1,200 active subscribers across three comprehensive plan tiers, providing everything from collection and storage to full burial logistics. We are fully licensed, community-focused, and available 24 hours a day, 7 days a week.</p>
+    </div>
+    <div style="background:var(--surface-dark); border:1px solid var(--border); border-radius:24px; padding:3rem;">
+        <div style="display:flex; flex-direction:column; gap:2rem;">
+            <div style="display:flex; gap:1.5rem; align-items:flex-start;">
+                <div style="background:rgba(197,160,89,0.1); color:var(--accent-gold); width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:700;">1</div>
+                <div><strong style="display:block; margin-bottom:0.25rem;">Founded with Purpose</strong><span style="color:var(--text-secondary); font-size:0.88rem;">Established to serve the local community with dignified, affordable funeral solutions.</span></div>
+            </div>
+            <div style="display:flex; gap:1.5rem; align-items:flex-start;">
+                <div style="background:rgba(197,160,89,0.1); color:var(--accent-gold); width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:700;">2</div>
+                <div><strong style="display:block; margin-bottom:0.25rem;">Subscription Plans Launched</strong><span style="color:var(--text-secondary); font-size:0.88rem;">Three tiered plans introduced to cover diverse family needs and budgets.</span></div>
+            </div>
+            <div style="display:flex; gap:1.5rem; align-items:flex-start;">
+                <div style="background:rgba(197,160,89,0.1); color:var(--accent-gold); width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:700;">3</div>
+                <div><strong style="display:block; margin-bottom:0.25rem;">1,200+ Families Protected</strong><span style="color:var(--text-secondary); font-size:0.88rem;">Trusted by over a thousand households to provide care when it matters most.</span></div>
+            </div>
+            <div style="display:flex; gap:1.5rem; align-items:flex-start;">
+                <div style="background:rgba(197,160,89,0.1); color:var(--accent-gold); width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:700;">4</div>
+                <div><strong style="display:block; margin-bottom:0.25rem;">Digital Platform Launched</strong><span style="color:var(--text-secondary); font-size:0.88rem;">Moved to a modern digital subscription system for faster claims and billing.</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Values -->
+<div class="values-section">
+    <div style="text-align:center;">
+        <span class="section-tag">What Guides Us</span>
+        <h2 class="section-title">Our Core Values</h2>
+        <p class="section-sub" style="margin:0 auto; max-width:540px;">Everything we do is guided by these principles — from how we handle a claim to how we answer your call.</p>
+    </div>
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="value-num">01</div>
+            <h4>Dignity First</h4>
+            <p>Every person deserves to be remembered with honour. We treat every case with the utmost care and respect.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-num">02</div>
+            <h4>Transparency</h4>
+            <p>No hidden fees. No surprises. Exactly what your plan promises, delivered completely.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-num">03</div>
+            <h4>Community Care</h4>
+            <p>We are neighbours first. Our team is embedded in the communities we serve.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-num">04</div>
+            <h4>Reliability</h4>
+            <p>Available 24/7, every day of the year. When you call, we answer — no exceptions.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Team -->
+<div class="team-section">
+    <div style="text-align:center;">
+        <span class="section-tag">The People Behind the Promise</span>
+        <h2 class="section-title">Our Dedicated Team</h2>
+        <p class="section-sub" style="margin:0 auto; max-width:540px;">Compassionate professionals who stand with families through every step of the journey.</p>
+    </div>
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="avatar">MD</div>
+            <h4>Magaye Director</h4>
+            <div class="role">Founder & Director</div>
+            <p>Leading Magaye Funerals with a vision of accessible, dignified care for every family.</p>
+        </div>
+        <div class="team-card">
+            <div class="avatar">SA</div>
+            <h4>Operations Lead</h4>
+            <div class="role">Head of Operations</div>
+            <p>Coordinates all funeral logistics to ensure seamless service delivery from start to finish.</p>
+        </div>
+        <div class="team-card">
+            <div class="avatar">FO</div>
+            <h4>Finance Officer</h4>
+            <div class="role">Finance & Billing</div>
+            <p>Manages all member accounts, payments, and ensures financial clarity for every policy.</p>
+        </div>
+        <div class="team-card">
+            <div class="avatar">CS</div>
+            <h4>Client Support</h4>
+            <div class="role">Member Relations</div>
+            <p>Your first call of support. Available 24/7 to guide families through the process.</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+    <span class="section-tag">Start Today</span>
+    <h2>Ready to Protect Your Family?</h2>
+    <p>Getting covered takes less than 5 minutes. Choose a plan and let Magaye Funerals take care of the rest.</p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <a href="customer_registration.html" class="btn btn-primary" style="text-decoration:none; font-size:1.05rem; padding:1rem 2rem;"><i data-lucide="user-plus"></i> Join a Plan</a>
+        <a href="contact.html" class="btn btn-outline" style="text-decoration:none; font-size:1.05rem; padding:1rem 2rem;"><i data-lucide="phone"></i> Speak to Us</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <a href="guest.html" class="nav-logo">
+        <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+    </a>
+            <p style="color:var(--text-secondary); font-size:0.9rem; margin-top:1rem; line-height:1.8; max-width:320px;">Dignified care, comprehensive cover, and a dedicated team — standing with your family every step of the way.</p>
+        </div>
+        <div>
+            <h5 style="margin-bottom:1.25rem; color:var(--text-primary);">Quick Links</h5>
+            <ul class="footer-links">
+                <li><a href="guest.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="guest.html#plans">Our Plans</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="customer_registration.html">Register Now</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 style="margin-bottom:1.25rem; color:var(--text-primary);">Contact</h5>
+            <ul class="footer-links">
+                <li><a href="tel:068 624 9195">068 624 9195</a></li>
+                <li><a href="mailto:info@magaefunerals.co.za">info@magaefunerals.co.za</a></li>
+                <li style="color:var(--text-secondary); font-size:0.9rem;">South Africa</li>
+                <li><a href="index.html">Staff Portal</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; 2026 Magaye Funerals. All rights reserved.</span>
+        <span>Dignified • Compassionate • Reliable</span>
+    </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magaye Funerals | Subscription Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+</head>
+<body>
+    <div class="dashboard-grid">
+        <aside></aside>
+        <main>
+            <header class="animate-fade-in">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1>Executive Overview</h1>
+                        <p class="subtitle">Magaye Funerals parlor analytics and operations.</p>
+                    </div>
+                    <div class="flex gap-1">
+                        <button class="btn btn-outline"><i data-lucide="download"></i> Reports</button>
+                        <button class="btn btn-primary" onclick="window.location.href='registration.html'"><i data-lucide="plus"></i> New Member</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Row -->
+            <section class="stats-row animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="stat-card">
+                    <p class="stat-label">Total Members</p>
+                    <p class="stat-value" id="dashTotalMembers">0</p>
+                    <p class="stat-trend trend-up"><i data-lucide="trending-up" style="width: 14px; height: 14px;"></i> Active policies</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">Monthly Revenue</p>
+                    <p class="stat-value" id="dashTotalRevenue">R0.00</p>
+                    <p class="stat-trend trend-up"><i data-lucide="trending-up" style="width: 14px; height: 14px;"></i> Total collected</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">Active Claims</p>
+                    <p class="stat-value" id="dashTotalClaims">0</p>
+                    <p class="stat-trend">Processing lifecycle</p>
+                </div>
+                <div class="stat-card" style="border-color: var(--warning);">
+                    <p class="stat-label">Waiting Period</p>
+                    <p class="stat-value" id="dashWaitingMembers">0</p>
+                    <p class="stat-trend">New signups</p>
+                </div>
+            </section>
+
+            <!-- Main Sections -->
+            <div class="flex gap-2 animate-fade-in" style="animation-delay: 0.2s;">
+                <!-- Recent Activity -->
+                <div class="card" style="flex: 2;">
+                    <h3 style="margin-bottom: 2rem;">Recent Registrations</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Member Name</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Plan Type</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Premium</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashMemberBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Plan Distribution -->
+                <div class="card" style="flex: 1;">
+                    <h3 style="margin-bottom: 2rem;">Plan Adoption</h3>
+                    <div id="planBars" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function renderDashboard() {
+            const members = await apiRequest('/members') || [];
+            const payments = await apiRequest('/payments') || [];
+            const claims = await apiRequest('/claims') || [];
+
+            // Stats
+            document.getElementById('dashTotalMembers').innerText = members.length;
+            document.getElementById('dashTotalClaims').innerText = claims.filter(c => c.status !== 'Fulfilled').length;
+            document.getElementById('dashWaitingMembers').innerText = members.filter(m => m.status === 'Waiting').length;
+            
+            const totalRevenue = payments.reduce((sum, p) => sum + p.amount, 0);
+            document.getElementById('dashTotalRevenue').innerText = 'R' + totalRevenue.toLocaleString();
+
+            // Recent Members
+            const tbody = document.getElementById('dashMemberBody');
+            tbody.innerHTML = '';
+            members.sort((a, b) => new Date(b.joinDate) - new Date(a.joinDate)).slice(0, 5).forEach(m => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid var(--border)';
+                tr.innerHTML = `
+                    <td style="padding: 1.25rem 0;">
+                        <div style="font-weight: 600;">${m.firstName} ${m.lastName}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">${m.id}</div>
+                    </td>
+                    <td style="font-size: 0.9rem;">${m.plan}</td>
+                    <td style="font-weight: 600;">R${m.premium}.00</td>
+                    <td>
+                        <div class="flex gap-1 items-center">
+                            <span class="status-badge" style="background: rgba(245, 158, 11, 0.1); color: var(--warning); padding: 4px 10px; font-size: 0.75rem;">${m.status}</span>
+                            ${m.status === 'Waiting' ? `
+                                <button class="btn btn-primary" style="padding: 4px 8px; font-size: 0.7rem; background: var(--success); border-color: var(--success);" onclick="quickUpdateMember('${m.id}', 'Active')">Approve</button>
+                                <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.7rem; color: var(--danger); border-color: var(--danger);" onclick="quickUpdateMember('${m.id}', 'Declined')">Decline</button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            async function quickUpdateMember(id, status) {
+                if (!confirm(`Are you sure you want to set this member to ${status}?`)) return;
+                
+                const result = await apiRequest(`/members/${id}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: status })
+                });
+
+                if (result) {
+                    alert(`Member ${status === 'Active' ? 'Approved' : 'Declined'} successfully.`);
+                    renderDashboard();
+                }
+            }
+
+            // Plan Bars
+            const plans = ['HERITAGE', 'STANDARD', 'BASIC'];
+            const planBars = document.getElementById('planBars');
+            planBars.innerHTML = '';
+            plans.forEach(p => {
+                const count = members.filter(m => m.plan === p).length;
+                const pct = members.length > 0 ? (count / members.length * 100) : 0;
+                const bar = document.createElement('div');
+                bar.innerHTML = `
+                    <div class="flex justify-between" style="margin-bottom: 0.5rem; font-size: 0.9rem;">
+                        <span>${p.charAt(0) + p.slice(1).toLowerCase()} Plan</span>
+                        <span>${Math.round(pct)}%</span>
+                    </div>
+                    <div style="height: 6px; background: var(--surface-light); border-radius: 3px;">
+                        <div style="width: ${pct}%; height: 100%; background: var(--accent-gold); border-radius: 3px;"></div>
+                    </div>
+                `;
+                planBars.appendChild(bar);
+            });
+
+            lucide.createIcons();
+        }
+
+        document.addEventListener('DOMContentLoaded', renderDashboard);
+    </script>
+</body>
+</html>

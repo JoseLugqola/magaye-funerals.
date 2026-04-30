@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Policy Activation Certificate | Magaye Funerals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a059; --dark: #0f172a; }
+        body { font-family: 'Outfit', sans-serif; background: #f8fafc; padding: 40px; color: var(--dark); }
+        .certificate { max-width: 800px; margin: 0 auto; background: white; border: 15px solid var(--dark); padding: 50px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .inner-border { border: 2px solid var(--gold); padding: 40px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { width: 120px; margin-bottom: 1rem; }
+        h1 { color: var(--gold); font-size: 2.5rem; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
+        .subtitle { font-size: 1.1rem; color: #64748b; margin-top: 10px; }
+        
+        .content { margin: 40px 0; line-height: 1.8; }
+        .field { display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding: 12px 0; }
+        .label { font-weight: 600; color: #475569; }
+        .value { color: var(--dark); font-weight: 700; }
+        
+        .footer { margin-top: 60px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .signature { border-top: 2px solid var(--dark); width: 200px; text-align: center; padding-top: 10px; font-weight: 600; }
+        .seal { width: 100px; opacity: 0.8; }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .certificate { box-shadow: none; border: 10px solid var(--dark); }
+            .no-print { display: none; }
+        }
+        
+        .no-print { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; }
+        .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-print { background: var(--dark); color: white; }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <button class="btn btn-print" onclick="window.print()">🖨️ Print Certificate / Save as PDF</button>
+    </div>
+
+    <div class="certificate">
+        <div class="inner-border">
+            <div class="header">
+                <img src="logo.png" alt="Magaye Logo" class="logo">
+                <h1>Certificate of Coverage</h1>
+                <p class="subtitle">Magaye Funerals Group Life Scheme</p>
+            </div>
+
+            <div class="content">
+                <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px;">
+                    This document certifies that the individual named below is an active member of Magaye Funerals.
+                </p>
+                
+                <div class="field">
+                    <span class="label">Principal Member</span>
+                    <span class="value" id="certName">--</span>
+                </div>
+                <div class="field">
+                    <span class="label">ID Number</span>
+                    <span class="value" id="certID">--</span>
+                </div>
+                <div class="field">
+                    <span class="label">Policy Number</span>
+                    <span class="value" id="certPolicyNum">MAG-CERT-2026</span>
+                </div>
+                <div class="field">
+                    <span class="label">Selected Plan</span>
+                    <span class="value" id="certPlan">--</span>
+                </div>
+                <div class="field">
+                    <span class="label">Monthly Premium</span>
+                    <span class="value" id="certPremium">--</span>
+                </div>
+                <div class="field">
+                    <span class="label">Status</span>
+                    <span class="value" style="color: green;">ACTIVE</span>
+                </div>
+                <div class="field">
+                    <span class="label">Activation Date</span>
+                    <span class="value" id="certTimestamp">--</span>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="signature">
+                    Authorized Signatory<br>
+                    <span style="font-size: 0.8rem; font-weight: normal; color: #64748b;">Magaye Funerals Administrator</span>
+                </div>
+                <img src="logo.png" alt="Seal" class="seal" style="filter: grayscale(1) sepia(1);">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            document.getElementById('certName').innerText = params.get('name') || 'N/A';
+            document.getElementById('certID').innerText = params.get('id') || 'N/A';
+            document.getElementById('certPlan').innerText = (params.get('plan') || 'N/A') + ' PLAN';
+            document.getElementById('certPremium').innerText = 'R' + (params.get('premium') || '0.00');
+            document.getElementById('certTimestamp').innerText = params.get('date') || new Date().toLocaleString();
+            document.getElementById('certPolicyNum').innerText = 'MAG-' + (params.get('id') || '0000').slice(-6) + '-2026';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | Magaye Funerals</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .cust-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .user-profile { display: flex; align-items: center; gap: 1rem; }
+        .user-avatar { width: 48px; height: 48px; background: var(--surface-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-gold); border: 1px solid var(--border); }
+        .dashboard-layout { display: grid; grid-template-columns: 1fr 350px; gap: 2rem; }
+        .policy-card { background: linear-gradient(135deg, var(--surface-dark) 0%, #1a2230 100%); padding: 2rem; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 2rem; }
+        .status-badge { padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+        .status-active { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .status-waiting { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
+        .benefit-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .benefit-item i { color: var(--accent-gold); width: 18px; }
+        .sidebar-card { background: var(--surface-dark); border: 1px solid var(--border); border-radius: 24px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .sidebar-card h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .claim-btn { width: 100%; padding: 1rem; background: var(--danger); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
+        .upgrade-card { background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--accent-gold); }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 1rem; }
+        .modal-content { background: var(--surface-dark); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border); max-width: 500px; width: 100%; position: relative; }
+        .plan-comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .plan-card-mini { border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; background: var(--surface-light); transition: all 0.3s ease; }
+    </style>
+</head>
+<body id="custDashboard">
+    <div class="dashboard-grid">
+        <aside>
+            <div class="logo"><img src="logo.png" alt="Magaye Funerals" class="logo-img"></div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active dashboard-nav-link" id="navOverview" onclick="switchDashboardTab('overview')"><i data-lucide="layout-dashboard"></i> My Policy</a></li>
+                    <li><a href="#" class="dashboard-nav-link" id="navPlans" onclick="switchDashboardTab('plans')"><i data-lucide="package"></i> Compare Plans</a></li>
+                    <li><a href="full_policy.html" target="_blank"><i data-lucide="file-text"></i> Policy Document</a></li>
+                    <li><a href="contact.html"><i data-lucide="help-circle"></i> Help & Support</a></li>
+                    <li><a href="terms.html"><i data-lucide="shield-check"></i> Terms of Service</a></li>
+                </ul>
+            </nav>
+            <div style="margin-top: auto;">
+                <nav><ul><li><a href="#" onclick="logoutCustomer()" style="color: var(--danger);"><i data-lucide="log-out"></i> Logout</a></li></ul></nav>
+            </div>
+        </aside>
+        
+        <main>
+            <div class="cust-header">
+                <div>
+                    <h1 id="custName">Member Name</h1>
+                    <p class="subtitle">Welcome back to your member portal.</p>
+                </div>
+                <div class="user-profile">
+                    <div style="text-align: right; margin-right: 1rem;">
+                        <div style="font-weight: 600; font-size: 0.9rem;" id="custID">ID Number</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Member since <span id="custJoinDate">Date</span></div>
+                    </div>
+                    <div class="user-avatar"><i data-lucide="user"></i></div>
+                </div>
+            </div>
+
+            <div class="dashboard-layout" id="overviewTab">
+                <div>
+                    <div class="policy-card animate-fade-in">
+                        <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
+                            <div><h2 id="custPlan" style="font-size: 1.5rem; color: var(--accent-gold);">PLAN NAME</h2><p style="color: var(--text-secondary);" id="custType">Coverage Type</p></div>
+                            <span id="custStatus" class="status-badge">Active</span>
+                        </div>
+                        <div class="flex gap-2" style="border-top: 1px solid var(--border); padding-top: 2rem;">
+                            <div style="flex: 1;"><label style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase;">Monthly Premium</label><div style="font-size: 1.5rem; font-weight: 700;" id="custPremium">R0.00</div></div>
+                            <div style="flex: 1;"><label style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase;">Next Payment Due</label><div style="font-size: 1.1rem; font-weight: 600;">May 05, 2026</div></div>
+                        </div>
+                    </div>
+                    <div class="card animate-fade-in" style="margin-top: 1.5rem;">
+                        <h3 style="margin-bottom: 1.5rem;"><i data-lucide="bell" style="width: 18px; vertical-align: middle;"></i> Notifications</h3>
+                        <div id="dashboardMessages">
+                            <div class="subtitle" style="text-align: center; padding: 1rem;">No new notifications.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="sidebar-card animate-fade-in">
+                        <h3><i data-lucide="users"></i> Your Dependants</h3>
+                        <div id="dashboardDepsList" style="margin-bottom: 1rem;"></div>
+                        <button class="btn btn-outline" style="width: 100%;" onclick="openDepModal()"><i data-lucide="user-plus"></i> Add Dependant</button>
+                    </div>
+                    <div class="sidebar-card animate-fade-in">
+                        <h3><i data-lucide="alert-triangle" class="text-danger"></i> Report a Claim</h3>
+                        <button class="claim-btn" onclick="openClaimModal()"><i data-lucide="file-plus"></i> Submit Digital Claim</button>
+                    </div>
+                    <div class="sidebar-card upgrade-card animate-fade-in">
+                        <h3><i data-lucide="arrow-up-circle"></i> Need More Cover?</h3>
+                        <button onclick="switchDashboardTab('plans')" class="btn btn-primary" style="width: 100%;">View Upgrade Options</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="plansTab" style="display: none;" class="animate-fade-in">
+                <div class="card">
+                    <h2>Explore Coverage Plans</h2>
+                    <div class="plan-comparison-grid">
+                        <div class="plan-card-mini"><h3>BASIC</h3><p>R100/mo</p></div>
+                        <div class="plan-card-mini" style="border-color: var(--accent-gold);"><h3>STANDARD</h3><p>R150/mo</p></div>
+                        <div class="plan-card-mini"><h3>HERITAGE</h3><p>R250/mo</p></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="claimModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Report a Claim</h2>
+            <div class="input-group"><label>Deceased Full Name</label><input type="text" id="deceasedName"></div>
+            <div class="input-group">
+                <label>Date of Incident</label>
+                <input type="date" id="claimDate" required>
+            </div>
+            <div class="input-group" style="margin-top: 1rem;">
+                <label>Upload Deceased ID / Death Certificate</label>
+                <input type="file" id="claimIDUpload" accept="image/*,application/pdf">
+            </div>
+            <div class="flex gap-1" style="margin-top: 2rem;">
+                <button class="btn btn-outline" onclick="closeClaimModal()">Cancel</button>
+                <button class="btn btn-primary" style="background: var(--danger);" onclick="submitDigitalClaim()">Submit Claim</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="depModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Add New Dependant</h2>
+            <div class="input-group"><label>Full Name</label><input type="text" id="depName"></div>
+            <div class="input-group"><label>Relationship</label><select id="depRel"><option value="Spouse">Spouse</option><option value="Child">Child</option><option value="Parent">Parent</option></select></div>
+            <div class="input-group"><label>ID Number</label><input type="text" id="depID"></div>
+            <div class="input-group" style="margin-top: 1rem;">
+                <label>Upload Dependant ID</label>
+                <input type="file" id="depIDUpload" accept="image/*,application/pdf">
+            </div>
+            <div class="flex gap-1" style="margin-top: 2rem;">
+                <button class="btn btn-outline" onclick="closeDepModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="addDependantUI()">Save Dependant</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

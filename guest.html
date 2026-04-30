@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magaye Funerals | Dignified Care, Every Step of the Way</title>
+    <meta name="description" content="Magaye Funerals offers premium funeral subscription plans with comprehensive benefits. Protect your family with peace of mind from as little as R100/month.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c5a059">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <style>
+        body { overflow-x: hidden; }
+
+        /* NAV */
+        .public-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 4rem; }
+        .nav-logo { font-size: 1.6rem; font-weight: 700; color: var(--accent-gold); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; }
+        .nav-logo img { height: 90px; width: auto; transition: transform 0.3s ease; }
+        .nav-logo img:hover { transform: scale(1.05); }
+        .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+        .nav-cta { text-decoration: none; background: var(--accent-gold); color: var(--bg-dark) !important; padding: 0.6rem 1.5rem; border-radius: 10px; font-weight: 700 !important; transition: background 0.3s ease !important; }
+        .nav-cta:hover { background: var(--accent-gold-hover) !important; }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: grid; place-items: center; text-align: center; padding-top: 80px; position: relative; }
+        .hero-bg { position: absolute; inset: 0; background: url('hero.png') center/cover no-repeat; filter: brightness(0.3); z-index: -1; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(10,12,16,0.3) 0%, rgba(10,12,16,0.95) 100%); z-index: -1; }
+        .hero-content { padding: 2rem; max-width: 900px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(197,160,89,0.15); border: 1px solid rgba(197,160,89,0.3); color: var(--accent-gold); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 2rem; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -2px; }
+        .hero h1 span { color: var(--accent-gold); }
+        .hero-sub { font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem; line-height: 1.8; }
+        .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .scroll-hint { margin-top: 5rem; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-size: 0.85rem; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+        /* TRUST STRIP */
+        .trust-strip { background: var(--surface-dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem 4rem; display: flex; justify-content: space-around; align-items: center; gap: 2rem; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 0.75rem; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; }
+        .trust-item i { color: var(--accent-gold); }
+
+        /* SECTION */
+        section { padding: 6rem 4rem; }
+        .section-tag { color: var(--accent-gold); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+        .section-title { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 700; margin-bottom: 1rem; }
+        .section-sub { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; max-width: 560px; }
+
+        /* FEATURES */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
+        .feat-card { background: var(--surface-dark); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; }
+        .feat-card:hover { border-color: rgba(197,160,89,0.4); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+        .feat-icon { width: 52px; height: 52px; background: rgba(197,160,89,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent-gold); margin-bottom: 1.25rem; }
+        .feat-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .feat-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+
+        /* STATS */
+        .stats-section { background: var(--surface-dark); border: 1px solid var(--border); border-radius: 24px; padding: 4rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; margin: 0 4rem; }
+        .stat-num { font-size: 2.5rem; font-weight: 800; color: var(--accent-gold); }
+        .stat-desc { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem; }
+        .stats-wrapper { padding: 0; }
+
+        /* PLANS */
+        .plans-section { padding: 6rem 4rem; }
+        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+        .plan-guest-card { background: var(--surface-dark); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem; display: flex; flex-direction: column; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; }
+        .plan-guest-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: transparent; transition: background 0.3s ease; }
+        .plan-guest-card:hover::before { background: var(--accent-gold); }
+        .plan-guest-card:hover { border-color: rgba(197,160,89,0.5); transform: translateY(-8px); box-shadow: 0 24px 48px rgba(0,0,0,0.5); }
+        .plan-guest-card.featured-plan { border-color: var(--accent-gold); background: rgba(197,160,89,0.03); }
+        .plan-guest-card.featured-plan::before { background: var(--accent-gold); }
+        .popular-tag { position: absolute; top: 1.5rem; right: -3rem; background: var(--accent-gold); color: var(--bg-dark); font-size: 0.7rem; font-weight: 800; padding: 0.25rem 4rem; transform: rotate(45deg); text-transform: uppercase; }
+        .plan-tier { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-gold); margin-bottom: 0.75rem; }
+        .plan-name-big { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .plan-from { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+        .plan-from strong { font-size: 2rem; color: var(--text-primary); font-weight: 800; }
+        .plan-benefits { list-style: none; flex-grow: 1; margin-bottom: 2rem; }
+        .plan-benefits li { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.85rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .plan-benefits li .check { color: var(--accent-gold); flex-shrink: 0; margin-top: 2px; }
+        .plan-benefits li strong { color: var(--text-primary); }
+
+        /* PRICING TABLE */
+        .pricing-table { width: 100%; border-collapse: collapse; margin-top: 3rem; background: var(--surface-dark); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); }
+        .pricing-table th { background: var(--surface-light); padding: 1rem 1.5rem; text-align: left; font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+        .pricing-table td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        .pricing-table tr:last-child td { border-bottom: none; }
+        .pricing-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .price-val { color: var(--accent-gold); font-weight: 700; }
+
+        /* CTA */
+        .cta-section { margin: 0 4rem 6rem; background: linear-gradient(135deg, rgba(197,160,89,0.1) 0%, rgba(197,160,89,0.03) 100%); border: 1px solid rgba(197,160,89,0.3); border-radius: 24px; padding: 5rem 3rem; text-align: center; }
+        .cta-section h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .cta-section p { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 2.5rem; }
+
+        /* FOOTER */
+        footer { padding: 4rem; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+        .footer-links a { text-decoration: none; color: var(--text-secondary); transition: color 0.3s ease; font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--accent-gold); }
+        .footer-bottom { padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+<!-- Fixed Navigation -->
+<nav class="public-nav">
+    <a href="guest.html" class="nav-logo">
+        <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+    </a>
+    <ul class="nav-links">
+        <li><a href="guest.html" class="active">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="customer_login.html">Member Login</a></li>
+        <li><a href="customer_registration.html" class="nav-cta">Join a Plan</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content animate-fade-in">
+        <div class="hero-badge"><i data-lucide="heart" style="width:14px;"></i> Trusted by Families Across South Africa</div>
+        <h1>We Stand By Your Family <span>When It Matters Most</span></h1>
+        <p class="hero-sub">Magaye Funerals provides dignified, comprehensive funeral cover —  ensuring your loved ones are honoured with the respect and care they deserve.</p>
+        <div class="hero-actions">
+            <a href="#plans" class="btn btn-primary" style="text-decoration:none; font-size: 1rem;"><i data-lucide="shield"></i> View Our Plans</a>
+            <a href="about.html" class="btn btn-outline" style="text-decoration:none; font-size: 1rem;">Learn More</a>
+        </div>
+        <div class="scroll-hint">
+            <span>Scroll to discover</span>
+            <i data-lucide="chevron-down" style="width:18px;"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Strip -->
+<div class="trust-strip">
+    <div class="trust-item"><i data-lucide="clock" style="width:20px;"></i> 24/7 Emergency Response</div>
+    <div class="trust-item"><i data-lucide="shield-check" style="width:20px;"></i> Fully Licensed & Compliant</div>
+    <div class="trust-item"><i data-lucide="users" style="width:20px;"></i> Cover for the Whole Family</div>
+    <div class="trust-item"><i data-lucide="banknote" style="width:20px;"></i> From R100 / Month</div>
+    <div class="trust-item"><i data-lucide="map-pin" style="width:20px;"></i> Serving Your Community</div>
+</div>
+
+<!-- Why Choose Magae -->
+<section>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;">
+        <div>
+            <p class="section-tag">Why Choose Us</p>
+            <h2 class="section-title">More Than a Funeral Plan. A Promise.</h2>
+            <p class="section-sub">When grief strikes, the last thing your family should carry is the burden of logistics and finances. Magaye Funerals handles every detail so you can focus on remembering your loved one.</p>
+            <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display:flex; gap: 1rem; align-items: flex-start;">
+                    <div style="width:36px;height:36px;background:rgba(197,160,89,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent-gold);"><i data-lucide="check" style="width:18px;"></i></div>
+                    <div><strong>Same-day collection and storage.</strong><br><span style="color:var(--text-secondary);font-size:0.9rem;">Our team responds swiftly to ensure dignity from the very first moment.</span></div>
+                </div>
+                <div style="display:flex; gap: 1rem; align-items: flex-start;">
+                    <div style="width:36px;height:36px;background:rgba(197,160,89,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent-gold);"><i data-lucide="check" style="width:18px;"></i></div>
+                    <div><strong>Full logistics handled end-to-end.</strong><br><span style="color:var(--text-secondary);font-size:0.9rem;">Coffin, transport, programs, décor, flowers — we take care of everything.</span></div>
+                </div>
+                <div style="display:flex; gap: 1rem; align-items: flex-start;">
+                    <div style="width:36px;height:36px;background:rgba(197,160,89,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent-gold);"><i data-lucide="check" style="width:18px;"></i></div>
+                    <div><strong>Flexible family cover options.</strong><br><span style="color:var(--text-secondary);font-size:0.9rem;">Cover yourself only, include your spouse, or extend to up to 5 dependants.</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="features-grid" style="grid-template-columns: 1fr 1fr; margin-top: 0;">
+            <div class="feat-card">
+                <div class="feat-icon"><i data-lucide="truck" style="width:24px;"></i></div>
+                <h4>Premium Transport</h4>
+                <p>Hearse and family car(s) included in all plans.</p>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon"><i data-lucide="image" style="width:24px;"></i></div>
+                <h4>Personalised Programs</h4>
+                <p>Beautiful B&W or full-colour funeral programs.</p>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon"><i data-lucide="flower-2" style="width:24px;"></i></div>
+                <h4>Floral Décor</h4>
+                <p>Casket sprays, upright flowers, and grave site décor.</p>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon"><i data-lucide="gift" style="width:24px;"></i></div>
+                <h4>Cash / Grocery Voucher</h4>
+                <p>R1000 grocery or cash voucher in Standard & Heritage plans.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Strip -->
+<div class="stats-wrapper">
+    <div class="stats-section">
+        <div>
+            <div class="stat-num">1,200+</div>
+            <div class="stat-desc">Active Policy Holders</div>
+        </div>
+        <div>
+            <div class="stat-num">3</div>
+            <div class="stat-desc">Comprehensive Plan Tiers</div>
+        </div>
+        <div>
+            <div class="stat-num">24/7</div>
+            <div class="stat-desc">Emergency Support</div>
+        </div>
+        <div>
+            <div class="stat-num">R100</div>
+            <div class="stat-desc">Starting Premium / Month</div>
+        </div>
+    </div>
+</div>
+
+<!-- Plans Section -->
+<section class="plans-section" id="plans">
+    <div style="text-align: center; margin-bottom: 1rem;">
+        <p class="section-tag">Funeral Cover Plans</p>
+        <h2 class="section-title">Choose the Right Cover for Your Family</h2>
+        <p class="section-sub" style="margin: 0 auto;">Transparent pricing. Comprehensive benefits. Click any plan to start your registration.</p>
+    </div>
+
+    <div class="plans-grid">
+        <!-- Basic -->
+        <div class="plan-guest-card" onclick="window.location.href='customer_registration.html?plan=BASIC'">
+            <div class="plan-tier">Entry Level</div>
+            <div class="plan-name-big">Basic Plan</div>
+            <div class="plan-from">From <strong>R100</strong> /month</div>
+            <ul class="plan-benefits">
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Collection & same-day storage</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Basic Plan Coffin</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> 50x B&W Funeral Programs</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Poster Photo & Front Decoration</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Hearse & Family Car</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Grave Site Décor</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> 50x Bottled Water</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> <strong>R200 Airtime Included</strong></li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Personalized Grave Marker</li>
+            </ul>
+            <a href="customer_registration.html?plan=BASIC" class="btn btn-outline" style="text-decoration:none; text-align:center; display:block;">Get Started</a>
+        </div>
+
+        <!-- Standard -->
+        <div class="plan-guest-card featured-plan" onclick="window.location.href='customer_registration.html?plan=STANDARD'">
+            <div class="popular-tag">Popular</div>
+            <div class="plan-tier">Most Popular</div>
+            <div class="plan-name-big">Standard Plan</div>
+            <div class="plan-from">From <strong>R150</strong> /month</div>
+            <ul class="plan-benefits">
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> <strong>Everything in Basic</strong></li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> <strong>Gold Range Coffin upgrade</strong></li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> 50x Full-Colour Programs</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Hearse & 2x Family Cars</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> 100x Bottled Water</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> Personalized Grave Marker</li>
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> <strong>R1000 Grocery / Cash Voucher</strong></li>
+            </ul>
+            <a href="customer_registration.html?plan=STANDARD" class="btn btn-primary" style="text-decoration:none; text-align:center; display:block;">Select Standard</a>
+        </div>
+
+        <!-- Heritage -->
+        <div class="plan-guest-card" onclick="window.location.href='customer_registration.html?plan=HERITAGE'" style="border-color: rgba(255,255,255,0.15);">
+            <div class="plan-tier" style="color: #e2c97e;">Premium Tier</div>
+            <div class="plan-name-big">Heritage Plan</div>
+            <div class="plan-from">From <strong>R250</strong> /month</div>
+            <ul class="plan-benefits">
+                <li><i data-lucide="check-circle" style="width:16px;" class="check"></i> <strong>Everything in Standard</strong></li>
+                <li><i data-lucide="sparkles" style="width:16px;" class="check"></i> <strong>Heritage Range Casket</strong></li>
+                <li><i data-lucide="sparkles" style="width:16px;" class="check"></i> Casket Spray & Upright Flowers</li>
+                <li><i data-lucide="sparkles" style="width:16px;" class="check"></i> 100x Full-Colour Programs</li>
+                <li><i data-lucide="sparkles" style="width:16px;" class="check"></i> Framed Portrait Photo</li>
+                <li><i data-lucide="sparkles" style="width:16px;" class="check"></i> <strong>Tent & 50 Chairs</strong></li>
+                <li><i data-lucide="sparkles" style="width:16px;" class="check"></i> Personalized Bottled Water (100)</li>
+                <li><i data-lucide="sparkles" style="width:16px;" class="check"></i> <strong>R1000 Grocery / Cash Voucher</strong></li>
+            </ul>
+            <a href="customer_registration.html?plan=HERITAGE" class="btn btn-outline" style="text-decoration:none; text-align:center; display:block;">Select Heritage</a>
+        </div>
+    </div>
+
+    <!-- Pricing Reference Table -->
+    <div style="margin-top: 4rem;">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem;">Monthly Premium Reference</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Premiums are calculated based on the principal member's age.</p>
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th>Age Group</th>
+                    <th>Cover Type</th>
+                    <th>Basic</th>
+                    <th>Standard</th>
+                    <th>Heritage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>18 – 64</td><td>Principal Only</td><td class="price-val">R100</td><td class="price-val">R150</td><td class="price-val">R250</td></tr>
+                <tr><td>18 – 64</td><td>Principal + Spouse</td><td class="price-val">R130</td><td class="price-val">R170</td><td class="price-val">R280</td></tr>
+                <tr><td>18 – 64</td><td>Principal + 5</td><td class="price-val">R250</td><td class="price-val">R275</td><td class="price-val">R320</td></tr>
+                <tr><td>65 – 74</td><td>Principal Only</td><td class="price-val">R155</td><td class="price-val">R180</td><td class="price-val">R280</td></tr>
+                <tr><td>65 – 74</td><td>Principal + Spouse</td><td class="price-val">R190</td><td class="price-val">R230</td><td class="price-val">R310</td></tr>
+                <tr><td>65 – 74</td><td>Principal + 5</td><td class="price-val">R360</td><td class="price-val">R400</td><td class="price-val">R470</td></tr>
+                <tr><td>75 – 84</td><td>Principal Only</td><td class="price-val">R230</td><td class="price-val">R260</td><td class="price-val">R310</td></tr>
+                <tr><td>75 – 84</td><td>Principal + Spouse</td><td class="price-val">R310</td><td class="price-val">R350</td><td class="price-val">R380</td></tr>
+                <tr><td>84+</td><td>Principal Only</td><td class="price-val">R450</td><td class="price-val">–</td><td class="price-val">–</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<div class="cta-section">
+    <p class="section-tag">Peace of Mind Starts Today</p>
+    <h2>Give Your Family the Protection They Deserve</h2>
+    <p>Join over 1,200 families who have trusted Magaye Funerals to be there when it matters most. Registration takes less than 5 minutes.</p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="customer_registration.html" class="btn btn-primary" style="text-decoration:none; font-size: 1.05rem; padding: 1rem 2rem;"><i data-lucide="user-plus"></i> Register Now — It's Quick</a>
+        <a href="contact.html" class="btn btn-outline" style="text-decoration:none; font-size: 1.05rem; padding: 1rem 2rem;"><i data-lucide="phone"></i> Talk to an Agent</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="nav-logo" style="marginbottom:1rem;">
+                <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem; line-height: 1.8; max-width: 320px;">Dignified care, comprehensive cover, and a dedicated team — standing with your family every step of the way.</p>
+        </div>
+        <div>
+            <h5 style="margin-bottom: 1.25rem; color: var(--text-primary);">Quick Links</h5>
+            <ul class="footer-links">
+                <li><a href="guest.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#plans">Our Plans</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="customer_registration.html">Register Now</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 style="margin-bottom: 1.25rem; color: var(--text-primary);">Contact</h5>
+            <ul class="footer-links">
+                <li><a href="tel:+27686249195"><i data-lucide="phone" style="width:14px; display:inline;"></i> 068 624 9195</a></li>
+                <li><a href="mailto:info@magayefuneral.co.za"><i data-lucide="mail" style="width:14px; display:inline;"></i> info@magayefuneral.co.za</a></li>
+                <li style="color:var(--text-secondary); font-size:0.9rem;"><i data-lucide="map-pin" style="width:14px; display:inline;"></i> 4 Stewart RD Berea, EAST LONDON EC 5247</li>
+                <li><a href="#" onclick="event.preventDefault(); window.location.href='index.html'"><i data-lucide="settings" style="width:14px; display:inline;"></i> Staff Portal</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; 2026 Magaye Funerals. All rights reserved.</span>
+        <span>Dignified • Compassionate • Reliable</span>
+    </div>
+</footer>
+
+<script>
+    lucide.createIcons();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+        });
+    });
+</script>
+</body>
+</html>

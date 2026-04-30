@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login | Magaye Funerals</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <style>
+        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #0f172a; color: white; }
+        .login-card { width: 100%; max-width: 400px; padding: 3rem; background: var(--surface-dark); border: 1px solid var(--border); border-radius: 24px; text-align: center; }
+        .logo { width: 100px; margin-bottom: 2rem; }
+        .btn-staff { width: 100%; padding: 1rem; background: var(--accent-gold); color: black; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <a href="guest.html"><img src="logo.png" alt="Magaye Funerals" class="logo"></a>
+        <h1>Staff Portal</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Authorized Personnel Only</p>
+        
+        <form onsubmit="event.preventDefault(); staffLogin();">
+            <div class="input-group" style="text-align: left; margin-bottom: 1.5rem;">
+                <label>Email Address</label>
+                <input type="email" id="staffEmail" placeholder="admin@magayefuneral" style="width: 100%; padding: 1rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 12px; color: white; margin-top: 0.5rem;" required>
+            </div>
+            <div class="input-group" style="text-align: left;">
+                <label>Password</label>
+                <input type="password" id="staffPass" placeholder="••••••••" style="width: 100%; padding: 1rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 12px; color: white; margin-top: 0.5rem;" required>
+            </div>
+            <button type="submit" class="btn-staff" id="loginBtn">Enter Portal</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function staffLogin() {
+            const email = document.getElementById('staffEmail').value;
+            const pass = document.getElementById('staffPass').value;
+            const btn = document.getElementById('loginBtn');
+            
+            btn.innerText = 'Verifying...';
+            btn.disabled = true;
+
+            const response = await fetch(`${API_BASE}/staff/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password: pass })
+            });
+
+            if (response.ok) {
+                localStorage.setItem('magaye_staff_session', 'true');
+                window.location.href = 'index.html';
+            } else {
+                alert('Invalid Credentials. Access Denied.');
+                btn.innerText = 'Enter Portal';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

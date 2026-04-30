@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join a Plan | Magaye Funerals</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { padding-top: 80px; }
+        .public-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 4rem; height: 80px; border-bottom: 1px solid var(--border); background: var(--glass-bg); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+        .nav-logo img { height: 90px; width: auto; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-cta { text-decoration: none; background: var(--accent-gold); color: var(--bg-dark) !important; padding: 0.6rem 1.2rem; border-radius: 10px; font-weight: 700 !important; }
+
+        .reg-container { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .step-indicator { display: flex; justify-content: space-between; margin-bottom: 3rem; position: relative; }
+        .step-indicator::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: var(--border); z-index: -1; transform: translateY(-50%); }
+        .step { width: 40px; height: 40px; border-radius: 50%; background: var(--surface-dark); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text-secondary); }
+        .step.active { border-color: var(--accent-gold); color: var(--accent-gold); background: var(--surface-light); }
+        .step.completed { background: var(--accent-gold); border-color: var(--accent-gold); color: var(--bg-dark); }
+        
+        .form-section { display: none; }
+        .form-section.active { display: block; animation: fadeIn 0.4s ease; }
+        
+        .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
+        .plan-option { cursor: pointer; border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; background: var(--surface-dark); position: relative; }
+        .plan-option:hover { border-color: rgba(197, 160, 89, 0.5); transform: translateY(-4px); }
+        .plan-option.selected { border-color: var(--accent-gold); background: rgba(197, 160, 89, 0.05); }
+        .plan-price { font-size: 1.75rem; font-weight: 800; color: var(--accent-gold); margin: 0.75rem 0; }
+        
+        input, select { width: 100%; padding: 1rem; border-radius: 12px; background: var(--surface-light); border: 1px solid var(--border); color: var(--text-primary); font-family: inherit; margin-top: 0.5rem; }
+        label { color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
+        .input-group { margin-bottom: 1.5rem; }
+
+        footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+    </style>
+</head>
+<body id="custRegistration">
+    <nav class="public-nav" style="height: 100px;">
+        <a href="guest.html" class="nav-logo">
+            <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+        </a>
+        <ul class="nav-links">
+            <li><a href="guest.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="customer_login.html">Member Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="reg-container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Join Magaye Funerals</h1>
+            <p class="subtitle">Complete your registration in 4 easy steps.</p>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active" id="step1-indicator">1</div>
+            <div class="step" id="step2-indicator">2</div>
+            <div class="step" id="step3-indicator">3</div>
+            <div class="step" id="step4-indicator">4</div>
+        </div>
+
+        <div class="card">
+            <form id="regForm">
+                <!-- Step 1 -->
+                <div class="form-section active" id="step1">
+                    <h3 style="margin-bottom: 1.5rem;">Personal Details</h3>
+                    <div class="flex gap-1">
+                        <div class="input-group" style="flex: 1;">
+                            <label>First Name</label>
+                            <input type="text" id="firstName" placeholder="e.g. John" required>
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label>Surname</label>
+                            <input type="text" id="lastName" placeholder="e.g. Doe" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>South African ID Number</label>
+                        <input type="text" id="principalID" placeholder="13-digit ID number" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="068 624 9195" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Upload ID / Passport (Principal)</label>
+                        <input type="file" id="principalIDUpload" accept="image/*,application/pdf">
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem;">PDF, JPG or PNG. Max 5MB.</p>
+                    </div>
+
+                    <div class="flex justify-between" style="margin-top: 2rem;">
+                        <div></div>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next Step <i data-lucide="arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="form-section" id="step2">
+                    <h3 style="margin-bottom: 1.5rem;">Choose Your Plan</h3>
+                    <p class="subtitle" style="margin-bottom: 1rem;">Calculated age: <span id="calcAge">--</span> years</p>
+                    
+                    <div class="plan-grid">
+                        <div class="plan-option" onclick="selectPlan('BASIC')">
+                            <h4 style="color: var(--text-secondary);">Basic</h4>
+                            <p class="plan-price" id="priceBasic">R--</p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Essential dignity cover</p>
+                        </div>
+                        <div class="plan-option" onclick="selectPlan('STANDARD')">
+                            <h4 style="color: var(--text-secondary);">Standard</h4>
+                            <p class="plan-price" id="priceStandard">R--</p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Our most popular choice</p>
+                        </div>
+                        <div class="plan-option" onclick="selectPlan('HERITAGE')">
+                            <h4 style="color: var(--text-secondary);">Heritage</h4>
+                            <p class="plan-price" id="priceHeritage">R--</p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Premium family protection</p>
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="margin-top: 2rem;">
+                        <label>Who do you want to cover?</label>
+                        <select id="planType" onchange="updatePrices()">
+                            <option value="Principal Only">Myself Only</option>
+                            <option value="Principal + Spouse">Myself + Spouse</option>
+                            <option value="Principal + 5">Myself + 5 Dependants</option>
+                        </select>
+                    </div>
+
+                    <div class="flex justify-between" style="margin-top: 2rem;">
+                        <button type="button" class="btn btn-outline" onclick="nextStep(1)">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next Step <i data-lucide="arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="form-section" id="step3">
+                    <h3 style="margin-bottom: 1rem;">Add Your Dependants</h3>
+                    <p class="subtitle" style="margin-bottom: 1.5rem;">Register family members covered by your selected plan.</p>
+                    
+                    <div style="background: var(--surface-light); padding: 1.5rem; border-radius: 16px; margin-bottom: 2rem;">
+                        <div class="flex gap-1">
+                            <div class="input-group" style="flex: 1.5;">
+                                <label>Full Name</label>
+                                <input type="text" id="depName" placeholder="e.g. Jane Doe">
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label>Relationship</label>
+                                <select id="depRel">
+                                    <option value="Spouse">Spouse</option>
+                                    <option value="Child">Child</option>
+                                    <option value="Parent">Parent</option>
+                                    <option value="Extended Family">Extended Family</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>ID Number</label>
+                            <input type="text" id="depID" placeholder="ID Number">
+                        </div>
+                        <div class="input-group" style="margin-top: 1rem;">
+                            <label>Upload Dependant ID (Required for Spouse)</label>
+                            <input type="file" id="depIDUpload" accept="image/*,application/pdf">
+                        </div>
+                        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="addDependantUI()">
+                            <i data-lucide="plus"></i> Add Dependant to List
+                        </button>
+                    </div>
+
+                    <div id="dependentsList">
+                        <p style="color: var(--text-muted); text-align: center; padding: 2rem; border: 2px dashed var(--border); border-radius: 12px;">No dependants added yet.</p>
+                    </div>
+                    
+                    <div class="flex justify-between" style="margin-top: 2rem;">
+                        <button type="button" class="btn btn-outline" onclick="nextStep(2)">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(4)">Review Plan <i data-lucide="arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="form-section" id="step4">
+                    <h3 style="margin-bottom: 1.5rem;">Confirm Your Subscription</h3>
+                    <div style="background: var(--surface-light); padding: 2rem; border-radius: 16px; margin-bottom: 1.5rem;">
+                        <div class="flex justify-between" style="margin-bottom: 1rem;">
+                            <span style="color: var(--text-secondary);">Policy Holder</span>
+                            <span id="summaryName">John Doe</span>
+                        </div>
+                        <div class="flex justify-between" style="margin-bottom: 1rem;">
+                            <span style="color: var(--text-secondary);">Selected Plan</span>
+                            <span id="summaryPlan">Heritage</span>
+                        </div>
+                        <div class="flex justify-between" style="margin-bottom: 1rem; font-weight: 700; border-top: 1px solid var(--border); padding-top: 1rem;">
+                            <span>Monthly Premium</span>
+                            <span id="summaryPrice" style="color: var(--accent-gold); font-size: 1.5rem;">R250.00</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="margin-bottom: 1.5rem;">
+                        <label>Create Account Password</label>
+                        <input type="password" id="regPassword" placeholder="Minimum 6 characters" required>
+                    </div>
+
+                    <div style="background: rgba(197, 160, 89, 0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid rgba(197, 160, 89, 0.2);">
+                        <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;"><i data-lucide="shield-check" style="width: 16px; vertical-align: middle;"></i> Policy Clauses Summary</h4>
+                        <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.2rem;" id="policyClauses">
+                            <li>6-month waiting period for natural death.</li>
+                            <li>Immediate cover for accidental death after first premium.</li>
+                            <li>Premium must be paid by the 7th of every month.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex gap-1" style="margin-bottom: 2rem; align-items: flex-start;">
+                        <input type="checkbox" id="tosCheck" style="width: 20px; height: 20px; margin-top: 3px; cursor: pointer;">
+                        <label for="tosCheck" style="font-size: 0.85rem; cursor: pointer; color: var(--text-secondary);">
+                            I have read and agree to the <a href="full_policy.html" target="_blank" style="color: var(--accent-gold); text-decoration: underline; font-weight: 600;">Terms of Service and Full Policy Document</a>. I understand the waiting periods and governing clauses of my selected plan.
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-between" style="margin-top: 2rem;">
+                        <button type="button" class="btn btn-outline" onclick="nextStep(3)">Back</button>
+                        <button type="button" class="btn btn-primary" id="activateBtn" style="background: var(--success); color: white;" onclick="submitForm()">Activate My Policy <i data-lucide="check"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Magaye Funerals. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

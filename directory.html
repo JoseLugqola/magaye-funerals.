@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Directory | Magaye Funerals</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="dashboard-grid">
+        <aside></aside>
+        <main>
+            <header>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1>Member Directory</h1>
+                        <p class="subtitle">Search and manage all policy holders.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href='registration.html'"><i data-lucide="plus"></i> New Member</button>
+                </div>
+            </header>
+
+            <div class="card">
+                <div class="flex gap-1" style="margin-bottom: 2rem;">
+                    <div class="input-group" style="flex: 2; margin-bottom: 0;">
+                        <input type="text" id="memberSearch" placeholder="Search by name, phone or ID..." onkeyup="filterDirectory()">
+                    </div>
+                    <div class="input-group" style="flex: 1; margin-bottom: 0;">
+                        <select id="statusFilter" onchange="filterDirectory()">
+                            <option value="all">All Statuses</option>
+                            <option value="Active">Active</option>
+                            <option value="Waiting">Waiting</option>
+                            <option value="Lapsed">Lapsed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+                            <th style="padding-bottom: 1rem; color: var(--text-secondary);">Full Name</th>
+                            <th style="padding-bottom: 1rem; color: var(--text-secondary);">ID Number</th>
+                            <th style="padding-bottom: 1rem; color: var(--text-secondary);">Plan</th>
+                            <th style="padding-bottom: 1rem; color: var(--text-secondary);">Premium</th>
+                            <th style="padding-bottom: 1rem; color: var(--text-secondary);">Status</th>
+                            <th style="padding-bottom: 1rem;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="directoryBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function renderDirectory() {
+            const members = await apiRequest('/members') || [];
+            const tbody = document.getElementById('directoryBody');
+            const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            tbody.innerHTML = '';
+
+            members.filter(m => {
+                const matchesSearch = (m.firstName + ' ' + m.lastName + ' ' + m.id + ' ' + m.phone).toLowerCase().includes(searchTerm);
+                const matchesStatus = statusFilter === 'all' || m.status === statusFilter;
+                return matchesSearch && matchesStatus;
+            }).forEach(m => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid var(--border)';
+                tr.innerHTML = `
+                    <td style="padding: 1rem 0;">
+                        <div style="font-weight: 500;">${m.firstName} ${m.lastName}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">${m.phone}</div>
+                    </td>
+                    <td>${m.id}</td>
+                    <td><span style="padding: 4px 8px; background: rgba(197, 160, 89, 0.1); color: var(--accent-gold); border-radius: 4px; font-size: 0.8rem;">${m.plan}</span></td>
+                    <td>R${m.premium}.00</td>
+                    <td>
+                        <span style="color: ${m.status === 'Active' ? 'var(--success)' : m.status === 'Waiting' ? 'var(--warning)' : 'var(--danger)'}; display: flex; align-items: center; gap: 4px; font-size: 0.9rem;">
+                            <i data-lucide="${m.status === 'Active' ? 'check-circle' : 'clock'}" style="width: 14px;"></i> ${m.status}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="flex gap-1">
+                            ${m.status === 'Waiting' ? `
+                                <button class="btn btn-primary" style="background: var(--success); border-color: var(--success); padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="adminUpdateMember('${m.id}', 'Active')">Approve</button>
+                                <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger); padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="adminUpdateMember('${m.id}', 'Declined')">Decline</button>
+                            ` : `
+                                <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="viewMember('${m.id}')">Manage</button>
+                            `}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        async function adminUpdateMember(id, status) {
+            if (!confirm(`Are you sure you want to set this member to ${status}?`)) return;
+            
+            const result = await apiRequest(`/members/${id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: status })
+            });
+
+            if (result) {
+                alert(`Member ${status === 'Active' ? 'Approved' : 'Declined'} successfully.`);
+                renderDirectory();
+            }
+        }
+
+        function filterDirectory() { renderDirectory(); }
+        
+        function viewMember(id) {
+            window.location.href = `member_details.html?id=${id}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderDirectory);
+    </script>
+</body>
+</html>

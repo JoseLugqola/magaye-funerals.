@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magaye Funerals | Registration</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .form-container { max-width: 800px; margin: 0 auto; }
+        .step-indicator { display: flex; justify-content: space-between; margin-bottom: 3rem; position: relative; }
+        .step-indicator::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: var(--border); z-index: -1; transform: translateY(-50%); }
+        .step { width: 40px; height: 40px; border-radius: 50%; background: var(--surface-dark); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text-secondary); transition: all 0.3s ease; }
+        .step.active { border-color: var(--accent-gold); color: var(--accent-gold); background: var(--surface-light); box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); }
+        .step.completed { background: var(--accent-gold); border-color: var(--accent-gold); color: var(--bg-dark); }
+        
+        .form-section { display: none; margin-top: 2rem; }
+        .form-section.active { display: block; animation: fadeIn 0.4s ease; }
+        
+        .input-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; }
+        input, select { width: 100%; padding: 0.875rem; border-radius: 12px; background: var(--surface-light); border: 1px solid var(--border); color: var(--text-primary); font-family: inherit; transition: border-color 0.3s ease; }
+        input:focus, select:focus { outline: none; border-color: var(--accent-gold); }
+        
+        .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+        .plan-option { cursor: pointer; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; background: var(--surface-dark); }
+        .plan-option:hover { border-color: rgba(197, 160, 89, 0.5); transform: translateY(-3px); }
+        .plan-option.selected { border-color: var(--accent-gold); background: rgba(197, 160, 89, 0.05); }
+        .plan-price { font-size: 1.5rem; font-weight: 700; color: var(--accent-gold); margin: 0.5rem 0; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-grid">
+        <aside></aside>
+        <main>
+            <header>
+                <h1>New Subscription</h1>
+                <p class="subtitle">Complete the 4-step registration for a new principal member.</p>
+            </header>
+
+            <div class="form-container">
+                <div class="step-indicator">
+                    <div class="step active" id="step1-indicator">1</div>
+                    <div class="step" id="step2-indicator">2</div>
+                    <div class="step" id="step3-indicator">3</div>
+                    <div class="step" id="step4-indicator">4</div>
+                </div>
+
+                <div class="card">
+                    <form id="regForm">
+                        <!-- Step 1: Principal Info -->
+                        <div class="form-section active" id="step1">
+                            <h3 style="margin-bottom: 1.5rem;">Principal Member Details</h3>
+                            <div class="flex gap-1">
+                                <div class="input-group" style="flex: 1;">
+                                    <label>First Name</label>
+                                    <input type="text" id="firstName" placeholder="e.g. John" required>
+                                </div>
+                                <div class="input-group" style="flex: 1;">
+                                    <label>Surname</label>
+                                    <input type="text" id="lastName" placeholder="e.g. Doe" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>ID Number</label>
+                                <input type="text" id="principalID" placeholder="13 digits" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Phone Number</label>
+                                <input type="tel" placeholder="+27..." required>
+                            </div>
+                            <div class="flex justify-between" style="margin-top: 2rem;">
+                                <div></div>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next <i data-lucide="arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Plan Selection -->
+                        <div class="form-section" id="step2">
+                            <h3 style="margin-bottom: 0.5rem;">Select Coverage Plan</h3>
+                            <p class="subtitle" style="margin-bottom: 1.5rem;">Pricing automatically adjusted based on age (<span id="calcAge">--</span> years).</p>
+                            
+                            <div class="plan-grid">
+                                <div class="plan-option" onclick="selectPlan('BASIC')">
+                                    <h4>Basic Plan</h4>
+                                    <p class="plan-price" id="priceBasic">R--</p>
+                                    <ul style="font-size: 0.8rem; text-align: left; color: var(--text-secondary); margin-top: 1rem; list-style: none;">
+                                        <li><i data-lucide="check" style="width: 12px;"></i> Basic Coffin</li>
+                                        <li><i data-lucide="check" style="width: 12px;"></i> R200 Airtime</li>
+                                        <li><i data-lucide="check" style="width: 12px;"></i> 50 Water Bottles</li>
+                                    </ul>
+                                </div>
+                                <div class="plan-option" onclick="selectPlan('STANDARD')">
+                                    <h4>Standard Plan</h4>
+                                    <p class="plan-price" id="priceStandard">R--</p>
+                                    <ul style="font-size: 0.8rem; text-align: left; color: var(--text-secondary); margin-top: 1rem; list-style: none;">
+                                        <li><i data-lucide="check" style="width: 12px;"></i> Gold Range Coffin</li>
+                                        <li><i data-lucide="check" style="width: 12px;"></i> R1000 Voucher</li>
+                                        <li><i data-lucide="check" style="width: 12px;"></i> 100 Water Bottles</li>
+                                    </ul>
+                                </div>
+                                <div class="plan-option" onclick="selectPlan('HERITAGE')">
+                                    <h4>Heritage Plan</h4>
+                                    <p class="plan-price" id="priceHeritage">R--</p>
+                                    <ul style="font-size: 0.8rem; text-align: left; color: var(--text-secondary); margin-top: 1rem; list-style: none;">
+                                        <li><i data-lucide="check" style="width: 12px;"></i> Heritage Casket</li>
+                                        <li><i data-lucide="check" style="width: 12px;"></i> Tent & 50 Chairs</li>
+                                        <li><i data-lucide="check" style="width: 12px;"></i> Framed Photo</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="input-group" style="margin-top: 2rem;">
+                                <label>Plan Type</label>
+                                <select id="planType" onchange="updatePrices()">
+                                    <option value="Principal Only">Principal Only</option>
+                                    <option value="Principal + Spouse">Principal + Spouse</option>
+                                    <option value="Principal + 5">Principal + 5 Dependents</option>
+                                </select>
+                            </div>
+
+                            <div class="flex justify-between" style="margin-top: 2rem;">
+                                <button type="button" class="btn btn-outline" onclick="nextStep(1)"><i data-lucide="arrow-left"></i> Back</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next <i data-lucide="arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Beneficiaries/Dependents -->
+                        <div class="form-section" id="step3">
+                            <h3 style="margin-bottom: 1.5rem;">Dependents & Beneficiaries</h3>
+                            <div id="dependentsList">
+                                <p style="color: var(--text-muted); text-align: center; padding: 2rem; border: 2px dashed var(--border); border-radius: 12px;">No dependents added yet.</p>
+                            </div>
+                            <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 1rem;"><i data-lucide="plus"></i> Add Dependent</button>
+                            
+                            <div class="flex justify-between" style="margin-top: 2rem;">
+                                <button type="button" class="btn btn-outline" onclick="nextStep(2)"><i data-lucide="arrow-left"></i> Back</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(4)">Review <i data-lucide="arrow-right"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Summary -->
+                        <div class="form-section" id="step4">
+                            <h3 style="margin-bottom: 1.5rem;">Review & Confirm</h3>
+                            <div style="background: var(--surface-light); padding: 2rem; border-radius: 16px;">
+                                <div class="flex justify-between" style="margin-bottom: 1rem;">
+                                    <span style="color: var(--text-secondary);">Policy Holder</span>
+                                    <span id="summaryName">John Doe</span>
+                                </div>
+                                <div class="flex justify-between" style="margin-bottom: 1rem;">
+                                    <span style="color: var(--text-secondary);">Selected Plan</span>
+                                    <span id="summaryPlan">Heritage</span>
+                                </div>
+                                <div class="flex justify-between" style="margin-bottom: 1rem; font-weight: 700; border-top: 1px solid var(--border); padding-top: 1rem;">
+                                    <span>Monthly Premium</span>
+                                    <span id="summaryPrice" style="color: var(--accent-gold); font-size: 1.25rem;">R250.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between" style="margin-top: 2rem;">
+                                <button type="button" class="btn btn-outline" onclick="nextStep(3)"><i data-lucide="arrow-left"></i> Back</button>
+                                <button type="button" class="btn btn-primary" style="background: var(--success); color: white;" onclick="submitForm()">Confirm & Activate <i data-lucide="check"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans & Benefits | Magaye Funerals</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .plan-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .plan-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .plan-card.featured { border-color: var(--accent-gold); background: rgba(197, 160, 89, 0.03); }
+        .plan-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .plan-price-tag { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem; }
+        .benefit-list { list-style: none; margin-bottom: 2rem; flex-grow: 1; }
+        .benefit-list li { margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.95rem; }
+        .benefit-list i { color: var(--accent-gold); margin-top: 3px; }
+        .tier-badge { position: absolute; top: 1.5rem; right: -2rem; transform: rotate(45deg); background: var(--accent-gold); color: var(--bg-dark); padding: 0.25rem 3rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-grid">
+        <aside></aside>
+        <main>
+            <header>
+                <h1>Plan Comparisons</h1>
+                <p class="subtitle">Detailed breakdown of funeral cover benefits and logistics.</p>
+            </header>
+
+            <div class="flex gap-2" style="margin-top: 2rem;">
+                <!-- Basic Plan -->
+                <div class="plan-card" onclick="window.location.href='registration.html?plan=BASIC'">
+                    <div class="plan-name">BASIC PLAN</div>
+                    <div class="plan-price-tag">From R100 / Month</div>
+                    <ul class="benefit-list">
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>Collection & Storage</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>Registration</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>Basic Plan Coffin</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>Casket Spray</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>50x B&W Programs</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>Poster Photo & Decoration</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>Hearse & Family Car</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>50x Bottled Water</span></li>
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span>R200 Airtime</span></li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;">Get Started</button>
+                </div>
+
+                <!-- Standard Plan -->
+                <div class="plan-card featured" onclick="window.location.href='registration.html?plan=STANDARD'">
+                    <div class="tier-badge">Popular</div>
+                    <div class="plan-name">STANDARD PLAN</div>
+                    <div class="plan-price-tag">From R150 / Month</div>
+                    <ul class="benefit-list">
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span><b>Everything in Basic</b></span></li>
+                        <li><i data-lucide="plus-circle" style="width: 18px;"></i> <span>Gold Range Coffin Upgrade</span></li>
+                        <li><i data-lucide="plus-circle" style="width: 18px;"></i> <span>50x Colour Programs</span></li>
+                        <li><i data-lucide="plus-circle" style="width: 18px;"></i> <span>Hearse & 2x Family Cars</span></li>
+                        <li><i data-lucide="plus-circle" style="width: 18px;"></i> <span>100x Bottled Water</span></li>
+                        <li><i data-lucide="plus-circle" style="width: 18px;"></i> <span><b>R1000 Grocery/Cash Voucher</b></span></li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;">Select Standard</button>
+                </div>
+
+                <!-- Heritage Plan -->
+                <div class="plan-card" style="border-color: rgba(255,255,255,0.2);" onclick="window.location.href='registration.html?plan=HERITAGE'">
+                    <div class="plan-name">HERITAGE PLAN</div>
+                    <div class="plan-price-tag">From R250 / Month</div>
+                    <ul class="benefit-list">
+                        <li><i data-lucide="check-circle-2" style="width: 18px;"></i> <span><b>Everything in Standard</b></span></li>
+                        <li><i data-lucide="sparkles" style="width: 18px;"></i> <span>Heritage Range Casket Upgrade</span></li>
+                        <li><i data-lucide="sparkles" style="width: 18px;"></i> <span>Casket Spray & Upright Flowers</span></li>
+                        <li><i data-lucide="sparkles" style="width: 18px;"></i> <span>100x Colour Programs</span></li>
+                        <li><i data-lucide="sparkles" style="width: 18px;"></i> <span><b>Tent & 50 Chairs</b></span></li>
+                        <li><i data-lucide="sparkles" style="width: 18px;"></i> <span>Personalized Bottled Water</span></li>
+                        <li><i data-lucide="sparkles" style="width: 18px;"></i> <span><b>R1000 Grocery/Cash Voucher</b></span></li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;">Select Heritage</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Management | Magaye Funerals</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .profile-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
+        .member-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .info-box { background: var(--surface-light); padding: 1.25rem; border-radius: 16px; border: 1px solid var(--border); }
+        .info-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+        .info-value { font-size: 1.1rem; font-weight: 600; }
+        
+        .management-actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        
+        .status-badge { padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .status-active { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .status-waiting { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .status-stopped { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .status-frozen { background: rgba(148, 163, 184, 0.1); color: var(--text-secondary); }
+
+        .tabs-nav { display: flex; gap: 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+        .tab-link { padding: 1rem 0; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s ease; }
+        .tab-link.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-grid">
+        <aside></aside>
+        <main>
+            <header>
+                <div class="flex items-center gap-1" style="margin-bottom: 1rem;">
+                    <a href="directory.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;"><i data-lucide="arrow-left" style="width: 14px;"></i> Back to Directory</a>
+                </div>
+                <div class="profile-header">
+                    <div>
+                        <h1 id="detName">Member Name</h1>
+                        <p class="subtitle" id="detID">ID Number</p>
+                    </div>
+                    <div id="detStatusBadge" class="status-badge">Status</div>
+                </div>
+            </header>
+
+            <div class="card">
+                <div class="tabs-nav">
+                    <div class="tab-link active" onclick="switchTab('overview')">Overview</div>
+                    <div class="tab-link" onclick="switchTab('dependants')">Dependants</div>
+                    <div class="tab-link" onclick="switchTab('payments')">Payments</div>
+                    <div class="tab-link" onclick="switchTab('claims')">Claims</div>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <div class="member-info-grid">
+                        <div class="info-box">
+                            <div class="info-label">Membership Plan</div>
+                            <div class="info-value" id="detPlan">Plan Name</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Coverage Type</div>
+                            <div class="info-value" id="detType">Type</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Monthly Premium</div>
+                            <div class="info-value" id="detPremium">R0.00</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Contact Number</div>
+                            <div class="info-value" id="detPhone">000 000 0000</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-label">Join Date</div>
+                            <div class="info-value" id="detJoinDate">YYYY-MM-DD</div>
+                        </div>
+                    </div>
+
+                    <div class="management-actions">
+                        <button class="btn btn-outline" id="btnFreeze" onclick="handleFreeze()"><i data-lucide="pause-circle"></i> Freeze Policy</button>
+                        <button class="btn btn-outline" id="btnDeactivate" onclick="handleDeactivate()" style="color: var(--warning); border-color: var(--warning);"><i data-lucide="user-minus"></i> Deactivate Member</button>
+                        <button class="btn btn-outline" id="btnStop" onclick="handleStop()" style="color: var(--danger); border-color: var(--danger);"><i data-lucide="stop-circle"></i> Stop Policy</button>
+                        <button class="btn btn-outline" onclick="handleDelete()" style="margin-left: auto; background: rgba(239, 68, 68, 0.1); color: var(--danger); border-color: transparent;"><i data-lucide="trash-2"></i> Delete Member</button>
+                    </div>
+                </div>
+
+                <!-- Dependants Tab -->
+                <div id="dependants" class="tab-content">
+                    <h3 style="margin-bottom: 1rem;">Registered Dependants</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Name</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Relationship</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">ID Number</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detDependantsBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Payments Tab -->
+                <div id="payments" class="tab-content">
+                    <h3 style="margin-bottom: 1rem;">Payment History</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Date</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Amount</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Method</th>
+                                <th style="padding-bottom: 1rem; color: var(--text-secondary);">Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detPaymentsBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Claims Tab -->
+                <div id="claims" class="tab-content">
+                    <h3 style="margin-bottom: 1rem;">Claims History</h3>
+                    <div id="detClaimsList">
+                        <p style="color: var(--text-muted); text-align: center; padding: 2rem;">No claims found for this member.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentMemberID = '';
+
+        async function loadMemberDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentMemberID = urlParams.get('id');
+            
+            if (!currentMemberID) {
+                window.location.href = 'directory.html';
+                return;
+            }
+
+            const member = await apiRequest(`/members/${currentMemberID}`);
+
+            if (!member) {
+                alert('Member not found!');
+                window.location.href = 'directory.html';
+                return;
+            }
+
+            // Populate Overview
+            document.getElementById('detName').innerText = member.firstName + ' ' + member.lastName;
+            document.getElementById('detID').innerText = 'ID: ' + member.id;
+            document.getElementById('detPlan').innerText = member.plan;
+            document.getElementById('detType').innerText = member.type;
+            document.getElementById('detPremium').innerText = 'R' + member.premium + '.00';
+            document.getElementById('detPhone').innerText = member.phone;
+            document.getElementById('detJoinDate').innerText = member.joinDate;
+
+            const badge = document.getElementById('detStatusBadge');
+            badge.innerText = member.status;
+            badge.className = 'status-badge status-' + member.status.toLowerCase();
+
+            // Populate Dependants
+            const depBody = document.getElementById('detDependantsBody');
+            depBody.innerHTML = '';
+            if (member.dependants && member.dependants.length > 0) {
+                member.dependants.forEach(d => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid var(--border)';
+                    tr.innerHTML = `<td style="padding: 1rem 0;">${d.name}</td><td>${d.relationship}</td><td>${d.id}</td>`;
+                    depBody.appendChild(tr);
+                });
+            } else {
+                depBody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 2rem; color: var(--text-muted);">No dependants registered.</td></tr>';
+            }
+
+            // Populate Payments
+            const payments = await apiRequest('/payments') || [];
+            const memberPayments = payments.filter(p => p.memberId === currentMemberID);
+            const payBody = document.getElementById('detPaymentsBody');
+            payBody.innerHTML = '';
+            if (memberPayments.length > 0) {
+                memberPayments.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid var(--border)';
+                    tr.innerHTML = `<td style="padding: 1rem 0;">${p.date}</td><td>R${p.amount}.00</td><td>${p.method}</td><td>${p.id}</td>`;
+                    payBody.appendChild(tr);
+                });
+            } else {
+                payBody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted);">No payment history found.</td></tr>';
+            }
+
+            // Populate Claims
+            const claims = await apiRequest('/claims') || [];
+            const memberClaims = claims.filter(c => c.memberId === currentMemberID);
+            const claimsList = document.getElementById('detClaimsList');
+            if (memberClaims.length > 0) {
+                claimsList.innerHTML = memberClaims.map(c => `
+                    <div class="info-box" style="margin-bottom: 1rem;">
+                        <div class="flex justify-between">
+                            <strong>${c.deceasedName}</strong>
+                            <span class="status-badge status-${c.status.toLowerCase()}">${c.status}</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Reported on ${c.reportDate}</div>
+                    </div>
+                `).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function handleFreeze() { freezeMember(currentMemberID); }
+        function handleDeactivate() { deactivateMember(currentMemberID); }
+        function handleStop() { stopMember(currentMemberID); }
+        function handleDelete() { deleteMember(currentMemberID); }
+
+        document.addEventListener('DOMContentLoaded', loadMemberDetails);
+    </script>
+</body>
+</html>
