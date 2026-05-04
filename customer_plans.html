@@ -12,7 +12,7 @@
     <style>
         body { padding-top: 80px; }
         .public-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 4rem; height: 80px; border-bottom: 1px solid var(--border); background: var(--glass-bg); backdrop-filter: blur(10px); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
-        .nav-logo img { height: 50px; width: auto; }
+        .nav-logo img { height: 125px; width: auto; }
         .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
         .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: var(--text-primary); }
@@ -43,6 +43,14 @@
         .tier-badge { position: absolute; top: 1.5rem; right: -2rem; transform: rotate(45deg); background: var(--accent-gold); color: var(--bg-dark); padding: 0.25rem 3rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 
         footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 900px) {
+            .public-nav { padding: 0 1.5rem; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface-dark); padding: 2rem; border-bottom: 1px solid var(--border); z-index: 1000; align-items: flex-start; }
+            .nav-links.active { display: flex; }
+            .mobile-toggle-btn { display: block; }
+            .plans-hero h1 { font-size: 2.2rem !important; }
+        }
     </style>
 </head>
 <body id="custPlans">
@@ -50,6 +58,9 @@
         <a href="guest.html" class="nav-logo">
             <img src="logo.png" alt="Magaye Funeral Home">
         </a>
+        <button class="mobile-toggle-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <i data-lucide="menu"></i>
+        </button>
         <ul class="nav-links">
             <li><a href="guest.html">Home</a></li>
             <li><a href="about.html">About Us</a></li>

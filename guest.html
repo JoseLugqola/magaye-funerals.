@@ -105,6 +105,27 @@
         .footer-links a { text-decoration: none; color: var(--text-secondary); transition: color 0.3s ease; font-size: 0.9rem; }
         .footer-links a:hover { color: var(--accent-gold); }
         .footer-bottom { padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.85rem; }
+
+        @media (max-width: 900px) {
+            .public-nav { padding: 0 1.5rem; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface-dark); padding: 2rem; border-bottom: 1px solid var(--border); z-index: 1000; }
+            .nav-links.active { display: flex; }
+            .mobile-toggle-btn { display: block; }
+            .hero-content { padding-top: 4rem; }
+            .hero h1 { font-size: 2.5rem; }
+            section, .plans-section, .cta-section { padding: 3rem 1.5rem; margin: 0; }
+            .trust-strip { padding: 2rem 1.5rem; gap: 1rem; flex-direction: column; align-items: flex-start; }
+            div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 3rem !important; }
+            .features-grid { grid-template-columns: 1fr; margin-top: 2rem; }
+            .stats-section { grid-template-columns: 1fr 1fr; padding: 2rem; margin: 0 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            .plans-grid { grid-template-columns: 1fr; }
+            .pricing-table { display: block; overflow-x: auto; }
+        }
+        @media (max-width: 480px) {
+            .stats-section { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -112,8 +133,11 @@
 <!-- Fixed Navigation -->
 <nav class="public-nav">
     <a href="guest.html" class="nav-logo">
-        <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+        <img src="logo.png" alt="Magaye Funeral Home" style="height: 150px; width: auto;">
     </a>
+    <button class="mobile-toggle-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+        <i data-lucide="menu"></i>
+    </button>
     <ul class="nav-links">
         <li><a href="guest.html" class="active">Home</a></li>
         <li><a href="about.html">About Us</a></li>
@@ -330,7 +354,7 @@
     <div class="footer-grid">
         <div>
             <div class="nav-logo" style="marginbottom:1rem;">
-                <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+                <img src="logo.png" alt="Magaye Funeral Home" style="height: 150px; width: auto;">
             </div>
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem; line-height: 1.8; max-width: 320px;">Dignified care, comprehensive cover, and a dedicated team — standing with your family every step of the way.</p>
         </div>

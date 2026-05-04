@@ -39,13 +39,28 @@
         .input-group { margin-bottom: 1.5rem; }
 
         footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 900px) {
+            .public-nav { padding: 0 1.5rem; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface-dark); padding: 2rem; border-bottom: 1px solid var(--border); z-index: 1000; align-items: flex-start; }
+            .nav-links.active { display: flex; }
+            .mobile-toggle-btn { display: block; }
+            .plan-grid { grid-template-columns: 1fr; }
+            .step-indicator::before { display: none; }
+            .step-indicator { flex-direction: column; align-items: center; gap: 1rem; }
+            .flex.gap-1 { flex-direction: column; }
+            .reg-container { padding: 0 1rem; }
+        }
     </style>
 </head>
 <body id="custRegistration">
     <nav class="public-nav" style="height: 100px;">
         <a href="guest.html" class="nav-logo">
-            <img src="logo.png" alt="Magaye Funeral Home" style="height: 75px; width: auto;">
+            <img src="logo.png" alt="Magaye Funeral Home" style="height: 150px; width: auto;">
         </a>
+        <button class="mobile-toggle-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <i data-lucide="menu"></i>
+        </button>
         <ul class="nav-links">
             <li><a href="guest.html">Home</a></li>
             <li><a href="about.html">About Us</a></li>

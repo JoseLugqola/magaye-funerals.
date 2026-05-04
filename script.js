@@ -93,7 +93,39 @@ function staffLogout() {
 // Sidebar Injection
 function injectSidebar() {
     const aside = document.querySelector('aside');
-    if (!aside || document.body.id === 'custDashboard') return;
+    if (!aside) return;
+
+    // Inject mobile overlay and toggle if inside dashboard-grid
+    if (document.querySelector('.dashboard-grid')) {
+        let overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        overlay.onclick = () => {
+            aside.classList.remove('open');
+            overlay.classList.remove('open');
+        };
+        document.body.appendChild(overlay);
+
+        let toggleBtn = document.createElement('button');
+        toggleBtn.className = 'mobile-toggle-btn';
+        toggleBtn.innerHTML = '<i data-lucide="menu" style="width: 24px; height: 24px;"></i>';
+        toggleBtn.style.position = 'fixed';
+        toggleBtn.style.bottom = '2rem';
+        toggleBtn.style.right = '2rem';
+        toggleBtn.style.background = 'var(--accent-gold)';
+        toggleBtn.style.color = 'var(--bg-dark)';
+        toggleBtn.style.borderRadius = '50%';
+        toggleBtn.style.width = '60px';
+        toggleBtn.style.height = '60px';
+        toggleBtn.style.boxShadow = 'var(--shadow-md)';
+        toggleBtn.style.zIndex = '1998';
+        toggleBtn.onclick = () => {
+            aside.classList.add('open');
+            overlay.classList.add('open');
+        };
+        document.body.appendChild(toggleBtn);
+    }
+
+    if (document.body.id === 'custDashboard') return;
 
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     
