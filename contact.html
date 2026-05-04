@@ -84,7 +84,7 @@
         @media (max-width: 900px) {
             .public-nav { padding: 0 1.5rem; }
             .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface-dark); padding: 2rem; border-bottom: 1px solid var(--border); z-index: 1000; align-items: flex-start; }
-            .nav-links.active { display: flex; }
+            .nav-links.open { display: flex !important; transform: translateY(0) !important; }
             .mobile-toggle-btn { display: block; }
             .page-hero { padding: calc(80px + 3rem) 1.5rem 3rem; }
             .contact-section { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 3rem; }
@@ -101,7 +101,7 @@
     <a href="guest.html" class="nav-logo">
         <img src="logo.png" alt="Magaye Funeral Home" style="height: 150px; width: auto;">
     </a>
-    <button class="mobile-toggle-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+    <button class="mobile-toggle-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">
         <i data-lucide="menu"></i>
     </button>
     <ul class="nav-links">
@@ -303,3 +303,4 @@
 </script>
 </body>
 </html>
+
